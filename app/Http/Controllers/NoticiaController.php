@@ -17,13 +17,17 @@ class NoticiaController extends Controller
     public function index()
     {
         $noticias = [];
-        if(Cache::has('dez_ultimas_noticias')){
+/*         if(Cache::has('dez_ultimas_noticias')){
             $noticias = Cache::get('dez_ultimas_noticias');
         } else {
             $noticias = Noticia::orderByDesc('created_at')->limit(10)->get();
             Cache::put('dez_ultimas_noticias', $noticias, 10);
-        }
+        } */
 
+        $noticias = Cache::remember('dez_ultimas_noticias', 10, function() {
+            return Noticia::orderByDesc('created_at')->limit(10)->get();
+        });
+        
         return view('noticia.index', ['noticias' => $noticias]);
     }
 

@@ -13,6 +13,6 @@ class NoticiaSeeder extends Seeder
      */
     public function run()
     {
-        //
+        \App\Models\Noticia::factory(1000)->create();
     }
 }
